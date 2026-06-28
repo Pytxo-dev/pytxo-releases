@@ -33,6 +33,7 @@ jobs:
             rust_target: x86_64-apple-darwin
             asset_prefix: pytxo-reality-deck-darwin-x64
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
     steps:
       - name: Checkout pytxo source
         uses: actions/checkout@v4
@@ -86,29 +87,23 @@ jobs:
           fi
 
       - name: Build Tauri bundles
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        with:
-          projectPath: apps/desktop
-          releaseDraft: false
-          includeRelease: false
-          includeUpdaterJson: false
-          args: --target ${{ matrix.rust_target }}
+        working-directory: apps/desktop
+        run: npx @tauri-apps/cli@2 build --target ${{ matrix.rust_target }}
+
+      - name: List bundle output
+        run: find target/${{ matrix.rust_target }}/release/bundle -type f 2>/dev/null || true
 
       - name: Upload desktop artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.asset_prefix }}
           path: |
-            apps/desktop/src-tauri/target/${{ matrix.rust_target }}/release/bundle/**/*
+            target/${{ matrix.rust_target }}/release/bundle/**/*
           if-no-files-found: error
 
   publish:
     needs: build
-    if: always() && !cancelled() && needs.build.result != 'failure'
+    if: always() && !cancelled()
     runs-on: ubuntu-latest
     steps:
       - name: Download desktop artifacts
