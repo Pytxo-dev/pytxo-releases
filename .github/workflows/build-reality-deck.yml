@@ -98,6 +98,8 @@ jobs:
 
       - name: Build Tauri bundles
         working-directory: apps/desktop
+        env:
+          MACOSX_DEPLOYMENT_TARGET: "10.15"
         run: npx --yes @tauri-apps/cli@2.11.4 build --target ${{ matrix.rust_target }} --features voice-whisper
 
       - name: List bundle output
