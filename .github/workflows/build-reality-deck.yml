@@ -1,12 +1,15 @@
-name: Build Reality Deck
+name: Build Pytxo Desktop
 
-# Runs on this public repo (free Actions minutes). Checks out private pytxo at tag.
-# Actions → Build Reality Deck → version 0.3.5
+# Runs on this public repo (free Actions minutes) and checks out private Pytxo source.
 on:
   workflow_dispatch:
     inputs:
       version:
         description: "Semver (no v prefix), e.g. 0.3.5"
+        required: true
+        type: string
+      source_ref:
+        description: "Private pytxo commit, tag, or branch to build"
         required: true
         type: string
 
@@ -39,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Pytxo-dev/pytxo
-          ref: ${{ env.TAG_NAME }}
+          ref: ${{ inputs.source_ref }}
           token: ${{ secrets.PYTXO_SOURCE_TOKEN }}
 
       - uses: dtolnay/rust-toolchain@stable
@@ -60,7 +63,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev \
-            librsvg2-dev patchelf
+            librsvg2-dev patchelf \
+            cmake clang libclang-dev libasound2-dev
+
+      - name: Configure macOS libclang
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          echo "LIBCLANG_PATH=$(xcode-select -p)/Toolchains/XcodeDefault.xctoolchain/usr/lib" >> "$GITHUB_ENV"
 
       - name: npm ci (tooling + desktop icons)
         run: |
@@ -88,7 +98,7 @@ jobs:
 
       - name: Build Tauri bundles
         working-directory: apps/desktop
-        run: npx @tauri-apps/cli@2 build --target ${{ matrix.rust_target }}
+        run: npx --yes @tauri-apps/cli@2.11.4 build --target ${{ matrix.rust_target }} --features voice-whisper
 
       - name: List bundle output
         run: find target/${{ matrix.rust_target }}/release/bundle -type f 2>/dev/null || true
@@ -103,7 +113,7 @@ jobs:
 
   publish:
     needs: build
-    if: always() && !cancelled()
+    if: needs.build.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Download desktop artifacts
@@ -130,6 +140,7 @@ jobs:
           done
           ls -la dist/
           test -n "$(ls -A dist)"
+          sha256sum dist/* > dist/SHA256SUMS-DESKTOP-UNIX.txt
 
       - name: Upload to release
         uses: softprops/action-gh-release@v2
