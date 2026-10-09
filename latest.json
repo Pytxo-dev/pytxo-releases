@@ -1,11 +1,11 @@
 {
-  "version": "1.2.3",
-  "notes": "See https://github.com/Pytxo-dev/pytxo/blob/main/distribution/release-notes/v1.2.3.md",
-  "pub_date": "2026-10-08T17:15:03.182Z",
+  "version": "1.2.4",
+  "notes": "See https://github.com/Pytxo-dev/pytxo/blob/main/distribution/release-notes/v1.2.4.md",
+  "pub_date": "2026-10-09T13:42:50.220Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSWWkraFdYd2ZybmRleXowZWRNMSsrMlRzNHcxdEh4NDB5Mnpkck9zdnF3ZmVEdzRlZlVWUDFJdTFKWDJHdGtYOHIrR3dGamhNUG1nVG5rdkFEQThmM0ltUTRENzh3eGdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNDc5NjI3CWZpbGU6UHl0eG8gRGVza3RvcF8xLjIuM194NjRfZW4tVVMubXNpCXZlcnNpb246MS4yLjMKTUVJdVBlV1h2cE9qT01wS1ozWmx4eCtNSlU1WEl2aCtldGFVMXZRK0tnamNGRTJFTXd1ZDUvaHRTcnVWenpTY3JJbm9aWVMyVXMxNHEzeWlEczhHQkE9PQo=",
-      "url": "https://github.com/Pytxo-dev/pytxo-releases/releases/download/v1.2.3/windows-x86_64-Pytxo-Desktop_1.2.3_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSWWkraFdYd2ZybmJDUm1hemM0dEFaZ0hiZm5TU1RtMVVKOFJFTFVqZ1ZJQStNTVhlYSs5L0ZXRGFKcFRCSEIyZERkRFllMmxpZDAxT3Y5UmdDRzc0MEVrTjY4cHpXSkFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNTUzMjQ3CWZpbGU6UHl0eG8gRGVza3RvcF8xLjIuNF94NjRfZW4tVVMubXNpCXZlcnNpb246MS4yLjQKUFZMOXZnYzByampFNmIwdzhjRFV0NDBwU3RmMW1xZXdhdkcwRVZYVUo2eDFTRTJwaGk5RmxTL2JGakM2Y0dtSzRYUjZnTmJuUjlFeGxHM1JrWDR5Q2c9PQo=",
+      "url": "https://github.com/Pytxo-dev/pytxo-releases/releases/download/v1.2.4/windows-x86_64-Pytxo-Desktop_1.2.4_x64_en-US.msi"
     }
   }
 }
